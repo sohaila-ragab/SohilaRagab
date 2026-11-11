@@ -1819,7 +1819,7 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 24px)}
           const txt = `${d.message}\n\n— ${d.name} (${d.role}${d.org ? ', ' + d.org : ''})\nRating: ${d.rating}/5\nMay quote: ${d.consent}`;
           location.href = 'mailto:sohailaragab238@gmail.com?subject=' + encodeURIComponent('Feedback — portfolio') + '&body=' + encodeURIComponent(txt);
         } else {
-          await fetch(endpoint(), { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(d) });
+        await Promise.race([fetch(endpoint(), { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(d) }), new Promise(r => setTimeout(r, 4000))]);
         }
         try { localStorage.setItem('fbLast', String(Date.now())); } catch (_) {}
         body.classList.add('sent'); body.scrollTop = 0;
